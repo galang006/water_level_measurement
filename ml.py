@@ -157,7 +157,7 @@ def detect():
         Fungsi utama untuk mendeteksi objek pada video dan menghitung estimasi tinggi air.
         Menggunakan model YOLOv8n dan YOLOv8n-seg untuk mendeteksi objek water gauge, angka, dan segmentasi air.
     '''
-    cap = cv2.VideoCapture(VIDEO_PATH)
+    cap = cv2.VideoCapture("wss://ws-cctv.ewspemalicomal.info/v2/api/stream/11554")
 
     fps = int(cap.get(cv2.CAP_PROP_FPS))
     frame_width = int(cap.get(cv2.CAP_PROP_FRAME_WIDTH))

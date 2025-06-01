@@ -1,14 +1,13 @@
-
 from ultralytics import YOLO
 import cv2
 
-# Load a COCO-pretrained YOLOv8n model
-model = YOLO("models/water_gauge.pt")
+model = YOLO("models/number.pt")
 
-# Display model information (optional)
-model.info()
+frame = cv2.imread("dataset/number/clean/m_01_frame_05.jpg")
+results = model(frame, save = False)
+img = results[0].plot(font_size=1, line_width=1)
 
-# Run inference with the YOLOv8n model on the 'bus.jpg' image
-results = model("dataset/water_gauge/m_3_frame06.jpg", show=True)
+cv2.imshow("Image",img)
 
-cv2.imshow("Image", results[0].plot())
+cv2.waitKey(0)
+cv2.destroyAllWindows()
