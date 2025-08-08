@@ -87,7 +87,6 @@ def get_pixel_scale(detection, number_detections):
             pixel_scale = number_distance / pixel_distance
             return pixel_scale
 
-        
     elif number_detections == 1:
         bounding_box_height = get_number_bounding_box_height(detection) # detection = detection_number
         pixel_scale = 20 / bounding_box_height
@@ -98,7 +97,7 @@ def get_pixel_scale(detection, number_detections):
         pixel_scale = 120 / roi_length
         return pixel_scale
 
-def calculate_estimated_water_height(detection_water_gauge, detection_number, detection_water_seg):
+def calculate_estimated_water_height(detection_water_gauge, detection_number, detection_water_seg, water_gauge_height=WATER_GAUGE_HEIGHT):
     '''
         Menghitung estimasi tinggi air berdasarkan deteksi objek water gauge, angka, dan segmentasi air.
         Returns:
@@ -130,30 +129,30 @@ def calculate_estimated_water_height(detection_water_gauge, detection_number, de
 
         if estimated_water_height < 0:
             return 0
-        elif estimated_water_height > WATER_GAUGE_HEIGHT:
-            return WATER_GAUGE_HEIGHT
+        elif estimated_water_height > water_gauge_height:
+            return water_gauge_height
         else:
             return estimated_water_height
 
     elif number_detections == 0:
-        print(detection_water_gauge)
-        print(detection_water_seg)
+        # print(detection_water_gauge)
+        # print(detection_water_seg)
         pixel_scale = get_pixel_scale(detection_water_gauge, number_detections)
 
-        print(pixel_scale)
-        print(water_height)
+        # print(pixel_scale)
+        # print(water_height)
         water_distance_cm = water_height * pixel_scale
-        print(water_distance_cm)
-        estimated_water_height = round(WATER_GAUGE_HEIGHT - water_distance_cm)
+        # print(water_distance_cm)
+        estimated_water_height = round(water_gauge_height - water_distance_cm)
         if estimated_water_height < 0:
             return 0
-        elif estimated_water_height > WATER_GAUGE_HEIGHT:
-            return WATER_GAUGE_HEIGHT
+        elif estimated_water_height > water_gauge_height:
+            return water_gauge_height
         else:
             return estimated_water_height
 
 def detect(video_path=VIDEO_PATH, output_path=OUTPUT_VIDEO_PATH, water_gauge_threshold=WATER_GAUGE_THRESHOLD,
-            number_object_detection_threshold=NUMBER_OBJECT_DETECTION_THRESHOLD, water_segmentation_threshold=WATER_SEGMENTATION_THRESHOLD, progress_callback=None):
+            number_object_detection_threshold=NUMBER_OBJECT_DETECTION_THRESHOLD, water_segmentation_threshold=WATER_SEGMENTATION_THRESHOLD, wg_height = WATER_GAUGE_HEIGHT, progress_callback=None):
     '''
         Fungsi utama untuk mendeteksi objek pada video dan menghitung estimasi tinggi air.
         Menggunakan model YOLOv8n dan YOLOv8n-seg untuk mendeteksi objek water gauge, angka, dan segmentasi air.
@@ -217,14 +216,15 @@ def detect(video_path=VIDEO_PATH, output_path=OUTPUT_VIDEO_PATH, water_gauge_thr
                 x_center = (x1_seg + x2_seg) // 2
                 y_center = (y1_seg + y2_seg) // 2
 
-                water_height = calculate_estimated_water_height(detections_water_gauge, detections_number, detections_water_seg)
+                water_height = calculate_estimated_water_height(detections_water_gauge, detections_number, detections_water_seg, wg_height)
+                print(wg_height)
 
                 if isinstance(water_height, (int, float)):  
                     sum_water_height += water_height
                     count_valid_frames += 1
 
                 cv2.putText(annotated_image_water_seg, str(water_height), (x_center-20, y_center), 
-                            cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2, cv2.LINE_AA)    
+                            cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 1, cv2.LINE_AA)    
                 
             annotated_seg_resized = cv2.resize(annotated_image_water_seg, (x2 - x1, y2 - y1), interpolation=cv2.INTER_LINEAR)
             annotated_image[y1:y2, x1:x2] = annotated_seg_resized

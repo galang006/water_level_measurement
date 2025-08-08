@@ -34,6 +34,15 @@ def process_video(video_file):
 
     st.video(video_file) 
 
+    select_water_gauge_height = st.radio("Select Water Gauge Height", ("350 cm", "400 cm"))
+
+    if select_water_gauge_height == "350 cm":
+        water_gauge_height = 350
+    elif select_water_gauge_height == "400 cm":
+        water_gauge_height = 400
+    else:
+        st.error("Select a valid water gauge height")
+
     st.subheader("Set Confident Threshold Parameters")
 
     wg_threshold = st.slider("WATER GAUGE Threshold", 0.0, 1.0, WATER_GAUGE_THRESHOLD)
@@ -51,6 +60,7 @@ def process_video(video_file):
             avg_water_height = ewhp.detect(
                 video_path, output_path,
                 wg_threshold, n_threshold, ws_threshold,
+                wg_height=int(water_gauge_height),
                 progress_callback=update_progress
             )
             end_time = time.time()
@@ -92,6 +102,15 @@ def process_image(image_file):
             st.image(annotated_img_rgb, caption="Detection Result")
 
 def process_image_using_all_models(image_file):
+    select_water_gauge_height = st.radio("Select Water Gauge Height", ("350 cm", "400 cm"))
+
+    if select_water_gauge_height == "350 cm":
+        water_gauge_height = 350
+    elif select_water_gauge_height == "400 cm":
+        water_gauge_height = 400
+    else:
+        st.error("Select a valid water gauge height")
+
     st.subheader("Set Confidence Threshold")
     wg_threshold = st.slider("WATER GAUGE Threshold", 0.0, 1.0, WATER_GAUGE_THRESHOLD)
     n_threshold = st.slider("NUMBER OBJECT DETECTION Threshold", 0.0, 1.0, NUMBER_OBJECT_DETECTION_THRESHOLD)
@@ -143,8 +162,8 @@ def process_image_using_all_models(image_file):
                 x_center = (x1_seg + x2_seg) // 2
                 y_center = (y1_seg + y2_seg) // 2
 
-                water_height = str(ewhp.calculate_estimated_water_height(detections_wg, detections_number, detections_seg))
-
+                water_height = str(ewhp.calculate_estimated_water_height(detections_wg, detections_number, detections_seg, water_gauge_height))
+                print(f"Water Height: {water_gauge_height}")
                 if isinstance(water_height, (int, float)):  
                     sum_water_height += water_height
                     count_valid_frames += 1

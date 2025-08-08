@@ -1,0 +1,8 @@
+.env
+__pycache__/
+dataset
+extract_dataset
+hasil
+models
+view_cctv
+sub
