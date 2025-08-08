@@ -1,7 +1,5 @@
 # Estimated Water Height Detection
 
-![malam cerah_result_frame_23](https://github.com/user-attachments/assets/a6b07ca8-6ec8-4df9-9a77-1f4bada3b438)
-
 An AI-powered system designed to accurately estimate water levels from video and image inputs. This project leverages advanced deep learning models (YOLOv8) for the precise detection of water gauges, recognition of numerical markings, and segmentation of the water body, providing a comprehensive solution for automated water level monitoring. The system is presented as a user-friendly web application built with Streamlit.
 
 ## Features
@@ -176,3 +174,5 @@ The project is organized into several key files and directories:
 -   `dataset/`:
     -   (Implied by `.gitignore` and `estimate_test_dataset.py`)
     -   Likely contains the test frames and related data used for model training or evaluation.
+
+![malam cerah_result_frame_23](https://github.com/user-attachments/assets/a6b07ca8-6ec8-4df9-9a77-1f4bada3b438)
