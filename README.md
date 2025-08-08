@@ -175,4 +175,6 @@ The project is organized into several key files and directories:
     -   (Implied by `.gitignore` and `estimate_test_dataset.py`)
     -   Likely contains the test frames and related data used for model training or evaluation.
 
-![malam cerah_result_frame_23](https://github.com/user-attachments/assets/a6b07ca8-6ec8-4df9-9a77-1f4bada3b438)
+## RESULT
+![malam cerah_result_frame_23](https://github.com/user-attachments/assets/ac419e21-ab58-4af7-8615-1b45c6f8c258)
+
