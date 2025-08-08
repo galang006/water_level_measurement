@@ -81,7 +81,7 @@ Follow these steps to set up and run the project locally:
     WATER_GAUGE_THRESHOLD=0.6
     NUMBER_OBJECT_DETECTION_THRESHOLD=0.6
     WATER_SEGMENTATION_THRESHOLD=0.6
-    WATER_GAUGE_HEIGHT=350
+    WATER_GAUGE_HEIGHT=400
 
     MODEL_WATER_GAUGE=models/water_gauge_model.pt
     MODEL_NUMBER=models/number_model.pt
@@ -115,7 +115,7 @@ To run the Streamlit application:
 
 3.  **Configure Parameters:**
     -   **Video Processing**:
-        -   Select the "Water Gauge Height" (e.g., "350 cm" or "400 cm") relevant to your water gauge.
+        -   Select the "Water Gauge Height" (e.g., "400 cm" or "450 cm") relevant to your water gauge.
         -   Adjust the "Confident Threshold Parameters" using the sliders for Water Gauge, Number Object Detection, and Water Segmentation.
         -   Click "Process Video" to start the analysis. A progress bar will indicate the processing status.
     -   **Image Processing**:

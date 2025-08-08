@@ -34,12 +34,12 @@ def process_video(video_file):
 
     st.video(video_file) 
 
-    select_water_gauge_height = st.radio("Select Water Gauge Height", ("350 cm", "400 cm"))
+    select_water_gauge_height = st.radio("Select Water Gauge Height", ("400 cm", "450 cm"))
 
-    if select_water_gauge_height == "350 cm":
-        water_gauge_height = 350
-    elif select_water_gauge_height == "400 cm":
+    if select_water_gauge_height == "400 cm":
         water_gauge_height = 400
+    elif select_water_gauge_height == "450 cm":
+        water_gauge_height = 450
     else:
         st.error("Select a valid water gauge height")
 
@@ -102,12 +102,12 @@ def process_image(image_file):
             st.image(annotated_img_rgb, caption="Detection Result")
 
 def process_image_using_all_models(image_file):
-    select_water_gauge_height = st.radio("Select Water Gauge Height", ("350 cm", "400 cm"))
+    select_water_gauge_height = st.radio("Select Water Gauge Height", ("400 cm", "450 cm"))
 
-    if select_water_gauge_height == "350 cm":
-        water_gauge_height = 350
-    elif select_water_gauge_height == "400 cm":
+    if select_water_gauge_height == "400 cm":
         water_gauge_height = 400
+    elif select_water_gauge_height == "450 cm":
+        water_gauge_height = 450
     else:
         st.error("Select a valid water gauge height")
 
