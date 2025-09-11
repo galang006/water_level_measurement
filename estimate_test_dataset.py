@@ -2,14 +2,12 @@ from ultralytics import YOLO
 import supervision as sv
 import os
 import cv2
-from dotenv import load_dotenv
 import estimated_water_height_process as ewhp
+import config
 
-load_dotenv()
-
-MODEL_WATER_GAUGE = os.getenv("MODEL_WATER_GAUGE")
-MODEL_NUMBER = os.getenv("MODEL_NUMBER")
-MODEL_WATER_SEGMENTATION = os.getenv("MODEL_WATER_SEGMENTATION")
+MODEL_WATER_GAUGE = config.MODEL_WATER_GAUGE
+MODEL_NUMBER = config.MODEL_NUMBER
+MODEL_WATER_SEGMENTATION = config.MODEL_WATER_SEGMENTATION
 
 test_frame_loc = "dataset/test frames"
 test_frame_list = ["malam 2", "malam 0", "malam 1", "malam cerah", "malam hujan" ,"siang 0", "siang 1", "siang 2", "siang cerah", "siang hujan"]

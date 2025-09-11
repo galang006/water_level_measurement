@@ -2,22 +2,20 @@ import os
 import cv2
 from ultralytics import YOLO
 import supervision as sv
-from dotenv import load_dotenv
 import subprocess
 import time
+import config
 
-load_dotenv()
+VIDEO_PATH = config.VIDEO_PATH
+OUTPUT_VIDEO_PATH = config.OUTPUT_VIDEO_PATH
+WATER_GAUGE_THRESHOLD = float(config.WATER_GAUGE_THRESHOLD)
+NUMBER_OBJECT_DETECTION_THRESHOLD = float(config.NUMBER_OBJECT_DETECTION_THRESHOLD)
+WATER_SEGMENTATION_THRESHOLD = float(config.WATER_SEGMENTATION_THRESHOLD)
+WATER_GAUGE_HEIGHT = int(config.WATER_GAUGE_HEIGHT)
 
-VIDEO_PATH = os.getenv("VIDEO_PATH")
-OUTPUT_VIDEO_PATH = os.getenv("OUTPUT_VIDEO_PATH")
-WATER_GAUGE_THRESHOLD = float(os.getenv("WATER_GAUGE_THRESHOLD"))
-NUMBER_OBJECT_DETECTION_THRESHOLD = float(os.getenv("NUMBER_OBJECT_DETECTION_THRESHOLD"))
-WATER_SEGMENTATION_THRESHOLD = float(os.getenv("WATER_SEGMENTATION_THRESHOLD"))
-WATER_GAUGE_HEIGHT = int(os.getenv("WATER_GAUGE_HEIGHT"))
-
-MODEL_WATER_GAUGE = os.getenv("MODEL_WATER_GAUGE")
-MODEL_NUMBER = os.getenv("MODEL_NUMBER")
-MODEL_WATER_SEGMENTATION = os.getenv("MODEL_WATER_SEGMENTATION")
+MODEL_WATER_GAUGE = config.MODEL_WATER_GAUGE
+MODEL_NUMBER = config.MODEL_NUMBER
+MODEL_WATER_SEGMENTATION = config.MODEL_WATER_SEGMENTATION
 
 def get_y_coor_number(detection):
     '''
@@ -108,7 +106,6 @@ def calculate_estimated_water_height(detection_water_gauge, detection_number, de
     number_coordinates = get_y_coor_number(detection_number)
 
     if number_detections >= 1:
-        #print(detection_number)
         pixel_scale = get_pixel_scale(detection_number, number_detections)
         lowest_number = next(iter(number_coordinates))
         coor_lowest_number = number_coordinates[lowest_number]
@@ -117,16 +114,7 @@ def calculate_estimated_water_height(detection_water_gauge, detection_number, de
         water_distance_cm = water_distance * pixel_scale
 
         estimated_water_height = round(lowest_number - water_distance_cm)
-        # if estimated_water_height == 116:
-        #     print(f"number_coordinates: {number_coordinates}")
-        #     print(f"skala pixel : {pixel_scale}")
-        #     print(f"tinggi air : {water_height}")
-        #     print(f"jarak air : {water_distance}")
-        #     print(f"jarak air cm : {water_distance_cm}")
-        #     print(f"estimated_water_height : {estimated_water_height}")
-        #     print(f"bounding_box_height : {get_number_bounding_box_height(detection_number)}")
-        #     print(f"roi_length : {get_roi_length(detection_water_gauge)}\n")
-
+     
         if estimated_water_height < 0:
             return 0
         elif estimated_water_height > water_gauge_height:
@@ -135,14 +123,9 @@ def calculate_estimated_water_height(detection_water_gauge, detection_number, de
             return estimated_water_height
 
     elif number_detections == 0:
-        # print(detection_water_gauge)
-        # print(detection_water_seg)
         pixel_scale = get_pixel_scale(detection_water_gauge, number_detections)
 
-        # print(pixel_scale)
-        # print(water_height)
         water_distance_cm = water_height * pixel_scale
-        # print(water_distance_cm)
         estimated_water_height = round(water_gauge_height - water_distance_cm)
         if estimated_water_height < 0:
             return 0
