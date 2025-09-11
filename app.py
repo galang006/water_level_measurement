@@ -3,21 +3,19 @@ import tempfile
 import estimated_water_height_process as ewhp
 import os
 import time
-from dotenv import load_dotenv
 import numpy as np
 import cv2
 from ultralytics import YOLO
 from pathlib import Path
 import supervision as sv
+import config
 
-load_dotenv()
-
-WATER_GAUGE_THRESHOLD = float(os.getenv("WATER_GAUGE_THRESHOLD"))
-NUMBER_OBJECT_DETECTION_THRESHOLD = float(os.getenv("NUMBER_OBJECT_DETECTION_THRESHOLD"))
-WATER_SEGMENTATION_THRESHOLD = float(os.getenv("WATER_SEGMENTATION_THRESHOLD"))
-MODEL_WATER_GAUGE = os.getenv("MODEL_WATER_GAUGE")
-MODEL_NUMBER = os.getenv("MODEL_NUMBER")
-MODEL_WATER_SEGMENTATION = os.getenv("MODEL_WATER_SEGMENTATION")
+WATER_GAUGE_THRESHOLD = float(config.WATER_GAUGE_THRESHOLD)
+NUMBER_OBJECT_DETECTION_THRESHOLD = float(config.NUMBER_OBJECT_DETECTION_THRESHOLD)
+WATER_SEGMENTATION_THRESHOLD = float(config.WATER_SEGMENTATION_THRESHOLD)
+MODEL_WATER_GAUGE = config.MODEL_WATER_GAUGE
+MODEL_NUMBER = config.MODEL_NUMBER
+MODEL_WATER_SEGMENTATION = config.MODEL_WATER_SEGMENTATION
 
 def draw_supervision(image, result, label=""):
     detections = sv.Detections.from_ultralytics(result[0])
